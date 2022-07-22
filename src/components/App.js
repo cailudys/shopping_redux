@@ -1,7 +1,14 @@
 import React from "react";
+import Cart from "./cart";
+import Product from "./product";
 
 function App() {
-  return <div>App working !</div>;
+  return (
+    <div>
+      <Product></Product>
+      <Cart></Cart>
+    </div>
+  );
 }
 
 export default App;
