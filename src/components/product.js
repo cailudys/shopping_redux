@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 class Product extends Component {
   render() {
+    const { products } = this.props;
     return (
       <section className="container content-section">
         <h2 className="section-header">商品列表</h2>
@@ -68,4 +70,10 @@ class Product extends Component {
   }
 }
 
-export default Product;
+const mapStateToProps = (state) => ({
+  products: state.products,
+});
+
+const mapDispatchToProps = (state) => {};
+
+export default connect(mapStateToProps)(Product);
