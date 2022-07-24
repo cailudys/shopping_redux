@@ -14,3 +14,11 @@ export const deleteProductFromCart = createAction("deleteProductFromCart");
 export const deleteProductFromLocalCart = createAction(
   "deleteProductFromLocalCart"
 );
+// 7.向服务器端发送请求， 告诉服务器我们要将哪一个商品的数量更改成什么
+export const changeServiceProductNumber = createAction(
+  "changeServiceProductNumber"
+);
+// 7. 更新熟练的操作，同步到本地状态
+export const changeLocalProductNumber = createAction(
+  "changeLocalProductNumber"
+);

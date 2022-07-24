@@ -10,6 +10,13 @@ class Cart extends Component {
     this.props.loadCarts();
   }
 
+  changeProductNumber(cid, event) {
+    // 获取商品的最新数量
+    const count = event.target.value;
+    // 向服务器端发送请求， 告诉服务器我们要将 哪一个商品的数量更改成什么
+    this.props.changeServiceProductNumber({ cid, count });
+  }
+
   render() {
     return (
       <section className="container content-section">
@@ -39,7 +46,9 @@ class Cart extends Component {
                     className="cart-quantity-input"
                     type="number"
                     value={product.count}
-                    onChange={() => {}}
+                    onChange={(event) => {
+                      this.changeProductNumber(product.id, event);
+                    }}
                   />
                   <button
                     onClick={() => {

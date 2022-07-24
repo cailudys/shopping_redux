@@ -1,8 +1,10 @@
 import { handleActions as createReducer } from "redux-actions";
+import product from "../../components/product";
 import {
   addProductToLocalCart,
   saveCarts,
   deleteProductFromLocalCart,
+  changeLocalProductNumber,
 } from "../actions/cart.actions";
 
 const initialState = [];
@@ -37,6 +39,15 @@ const handleDeleteProductFromLocalCart = (state, action) => {
   newState.splice(index, 1);
   return newState;
 };
+
+const handleChangeLocalProductNumber = (state, action) => {
+  // 将原有的购物车数据拷贝一份
+  const newState = JSON.parse(JSON.stringify(state));
+  const product = newState.find((product) => product.id === action.payload.id);
+  product.count = action.payload.count;
+  return newState;
+};
+
 // 这里导出的是一个普通JavaScript对象
 export default createReducer(
   {
@@ -44,6 +55,8 @@ export default createReducer(
     [addProductToLocalCart]: handleAddProductToLocalCart,
     [saveCarts]: handleSaveCarts,
     [deleteProductFromLocalCart]: handleDeleteProductFromLocalCart,
+    // 跟新本地购物车商品数量 这个状态
+    [changeLocalProductNumber]: handleChangeLocalProductNumber,
   },
   initialState
 );
