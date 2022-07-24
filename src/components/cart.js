@@ -1,6 +1,15 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as productsActions from "../store/actions/produt.actions";
+import * as cartActions from "../store/actions/cart.actions";
 
 class Cart extends Component {
+  componentDidMount() {
+    // 3. 向服务器端发送请求， 获取购物车列表数据（初始化的列表数据）
+    this.props.loadCarts();
+  }
+
   render() {
     return (
       <section className="container content-section">
@@ -11,46 +20,40 @@ class Cart extends Component {
           <span className="cart-quantity cart-header cart-column">数量</span>
         </div>
         <div className="cart-items">
-          <div className="cart-row">
-            <div className="cart-item cart-column">
-              <img
-                className="cart-item-image"
-                src="images/01.webp"
-                width="100"
-                height="100"
-              />
-              <span className="cart-item-title">
-                小户型简约现代网红双人三人客厅科技布免洗布艺
-              </span>
-            </div>
-            <span className="cart-price cart-column">￥1020</span>
-            <div className="cart-quantity cart-column">
-              <input className="cart-quantity-input" type="number" />
-              <button className="btn btn-danger" type="button">
-                删除
-              </button>
-            </div>
-          </div>
-          <div className="cart-row">
-            <div className="cart-item cart-column">
-              <img
-                className="cart-item-image"
-                src="images/02.webp"
-                width="100"
-                height="100"
-              />
-              <span className="cart-item-title">
-                11全网通4G手机官方iPhonexr
-              </span>
-            </div>
-            <span className="cart-price cart-column">￥4758</span>
-            <div className="cart-quantity cart-column">
-              <input className="cart-quantity-input" type="number" />
-              <button className="btn btn-danger" type="button">
-                删除
-              </button>
-            </div>
-          </div>
+          {this.props.carts.map((product) => {
+            return (
+              <div className="cart-row" key={product.id}>
+                <div className="cart-item cart-column">
+                  <img
+                    className="cart-item-image"
+                    src={product.thumbnail}
+                    width="100"
+                    height="100"
+                  />
+                  <span className="cart-item-title">{product.title}</span>
+                </div>
+                <span className="cart-price cart-column">{`￥${product.price}`}</span>
+                <div className="cart-quantity cart-column">
+                  {/* input 元素 有value属性，添加value属性的时候必须添加onchange属性 */}
+                  <input
+                    className="cart-quantity-input"
+                    type="number"
+                    value={product.count}
+                    onChange={() => {}}
+                  />
+                  <button
+                    onClick={() => {
+                      this.props.deleteProductFromCart(product.id);
+                    }}
+                    className="btn btn-danger"
+                    type="button"
+                  >
+                    删除
+                  </button>
+                </div>
+              </div>
+            );
+          })}
         </div>
         <div className="cart-total">
           <strong className="cart-total-title">总价</strong>
@@ -61,4 +64,13 @@ class Cart extends Component {
   }
 }
 
-export default Cart;
+const mapStateToProps = (state) => ({
+  carts: state.carts,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  ...bindActionCreators(productsActions, dispatch),
+  ...bindActionCreators(cartActions, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

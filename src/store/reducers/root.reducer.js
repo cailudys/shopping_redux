@@ -3,8 +3,10 @@
 // 2.那么我们需要使用到插件中的combineReducers 方法来合并 所有小的 reducer。
 import { combineReducers } from "redux";
 import productReducer from "./product.reducer";
+import cartReducer from "./cart.reducer";
 
-// { products: [] }
+// { products: [], carts:[] }
 export default combineReducers({
   products: productReducer,
+  carts: cartReducer,
 });

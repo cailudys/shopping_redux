@@ -8,6 +8,7 @@ const initialState = [];
 // 将商品列表数据保存在本地的store对象中
 const handleSaveProducts = (state, action) => action.payload;
 
+// 这里导出的是一个普通JavaScript对象
 export default createReducer(
   {
     // 将商品列表数据保存在本地的store对象中

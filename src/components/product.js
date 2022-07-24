@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as productsActions from "../store/actions/produt.actions";
+import * as cartActions from "../store/actions/cart.actions";
 
 class Product extends Component {
   componentDidMount() {
@@ -12,8 +13,7 @@ class Product extends Component {
   }
 
   render() {
-    const { products } = this.props;
-    console.log(products);
+    const { products, addProductToCart } = this.props;
     return (
       <section className="container content-section">
         <h2 className="section-header">商品列表</h2>
@@ -27,6 +27,7 @@ class Product extends Component {
                 <button
                   className="btn btn-primary shop-item-button"
                   type="button"
+                  onClick={() => addProductToCart(product.id)}
                 >
                   加入购物车
                 </button>
@@ -43,7 +44,9 @@ const mapStateToProps = (state) => ({
   products: state.products,
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(productsActions, dispatch);
+const mapDispatchToProps = (dispatch) => ({
+  ...bindActionCreators(productsActions, dispatch),
+  ...bindActionCreators(cartActions, dispatch),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product);
