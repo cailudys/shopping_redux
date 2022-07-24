@@ -43,8 +43,11 @@ const handleDeleteProductFromLocalCart = (state, action) => {
 const handleChangeLocalProductNumber = (state, action) => {
   // 将原有的购物车数据拷贝一份
   const newState = JSON.parse(JSON.stringify(state));
-  const product = newState.find((product) => product.id === action.payload.id);
-  product.count = action.payload.count;
+  const index = newState.findIndex(
+    (product) => product.id === action.payload.id
+  );
+  newState.splice(index, 1, action.payload);
+  console.log(newState);
   return newState;
 };
 
